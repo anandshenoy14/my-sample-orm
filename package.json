@@ -1,0 +1,23 @@
+{
+  "name": "my-sample-orm",
+  "version": "1.0.0",
+  "description": "Sample ORM Project Using Sequelize and Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "orm",
+    "sequelize",
+    "node",
+    "mysql"
+  ],
+  "author": "Anand Shenoy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.17.1",
+    "nodemon": "^1.19.3",
+    "sequelize": "^5.19.5"
+  }
+}
