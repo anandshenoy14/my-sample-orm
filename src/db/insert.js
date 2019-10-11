@@ -10,10 +10,6 @@ const errHandler = err => {
     console.error(chalk.red("Error: ", err));
 };
 
-const establishRelations = () => {
-    User.hasMany(Tweet, { as: "Tweets", foreignKey: "userId" });
-    Tweet.belongsTo(User, { as: "User", foreignKey: "userId" });
-}
 /**
  *
  *
@@ -22,7 +18,6 @@ const establishRelations = () => {
  * @returns user object
  */
 async function createUser(name, password) {
-    establishRelations();
     const user = await User.create({
         username: name,
         passwd: password
@@ -36,7 +31,6 @@ async function createUser(name, password) {
  * @param {*} userid
  */
 async function createTweet(content, userid) {
-    establishRelations()
     const tweet = await Tweet.create({
         content: content,
         userId: userid

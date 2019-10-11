@@ -1,10 +1,15 @@
+//DEPS
 const express = require("express");
 const chalk = require("chalk")
 const app = express();
 const bodyParser = require('body-parser');
+//connection
 const dbConnection = require("./src/db/connection")
+//CRUD
 const dbCreate = require('./src/db/insert');
 const dbReader = require('./src/db/read');
+const dbUpdate = require('./src/db/update');
+const dbDelete = require('./src/db/delete');
 
 app.use(bodyParser.json());
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
@@ -24,7 +29,39 @@ app.get('/api/db/users', (req, res) => {
             "users": users
         })
     }).catch(err => {
-        console.log(chalk.red('Error Occured : While Users Get'))
+        console.log(chalk.red('Error Occured : While Users Get '+err))
+    })
+})
+
+app.get('/api/db/user', (req,res)=>{
+    const parameters = {
+        username : req.query.username
+    }
+    dbReader.getUser(parameters).then(user=>{
+        res.send(user)
+    }).catch(err=>{
+        console.log(chalk.red('Error Occured : While Users Get '+err))
+    })
+})
+app.patch('/api/db/user', (req,res)=>{
+    const parameters = {
+        username : req.body.username,
+        password : req.body.password
+    }
+    dbUpdate.updateUser(parameters).then(user=>{
+        res.send(user)
+    }).catch(err=>{
+        console.log(chalk.red('Error Occured : While Users Update '+err))
+    })
+})
+app.delete('/api/db/user', (req,res)=>{
+    const parameters = {
+        username : req.body.username
+    }
+    dbDelete.deleteUser(parameters).then(usersDeleted=>{
+        res.send(`Number of Users Deleted ${usersDeleted}`)
+    }).catch(err=>{
+        console.log(chalk.red('Error Occured : While Users Delete '+err))
     })
 })
 app.listen(app.get('port'), () => {
